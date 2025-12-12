@@ -35,6 +35,18 @@
           <img src="IMG3805.jpg" alt="Photo 3 Santorini" />
           <figcaption>Short caption for photo 3</figcaption>
         </figure>
+        <figure>
+          <img src="IMG_2295.jpg" alt="Photo 4 Santorini" />
+          <figcaption>Short caption for photo 4</figcaption>
+        </figure>
+        <figure>
+          <img src="IMG_2375.jpg" alt="Photo 5 Santorini" />
+          <figcaption>Short caption for photo 5</figcaption>
+        </figure>
+        <figure>
+          <img src="IMG_3234.jpg" alt="Photo 6 Santorini" />
+          <figcaption>Short caption for photo 6</figcaption>
+        </figure>
       </div>
     </section>
 
@@ -42,7 +54,7 @@
       <h2>Contact</h2>
       <p>
         You can reach me via email: 
-        <a href="mailto:alexandra.hinkel@proton.me">YOUR_EMAIL@example.com</a>
+        <a href="mailto:alexandra.hinkel@proton.me">alexandra.hinkel@proton.me</a>
       </p>
     </section>
   </main>
@@ -59,11 +71,7 @@
     window.addEventListener("DOMContentLoaded", function () {
       // Add a class to the body to trigger CSS animations on the figures
       document.body.classList.add("photos-animate");
-
-      // Optional: after 2 seconds remove the class so the animation only runs once
-      setTimeout(function () {
-        document.body.classList.remove("photos-animate");
-      }, 2000);
+      // Wichtig: wir entfernen die Klasse NICHT mehr, damit die Fotos sichtbar bleiben
     });
   </script>
 </body>
