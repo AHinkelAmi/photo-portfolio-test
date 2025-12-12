@@ -9,7 +9,7 @@ body {
 
 header {
   background: linear-gradient(135deg, #5fa9ff, #9cd6ff); /* light sky blue */
-  color: #fff;
+  color: #5fa9ff, #9cd6ff;
   padding: 2rem 1rem;
   text-align: center;
 }
