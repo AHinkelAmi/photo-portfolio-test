@@ -22,6 +22,7 @@
 
     <section class="gallery">
       <h2>Photo Gallery</h2>
+      <button class="shuffle-button" type="button">Shuffle photos</button>
       <div class="grid">
         <figure>
           <img src="IMG_32342.jpg" alt="Photo 1 Santorini" />
@@ -64,14 +65,25 @@
   </footer>
 
   <script>
-    // Set the current year in the footer
-    document.getElementById("year").textContent = new Date().getFullYear();
-
-    // Simple JS animation: when the page loads, add a class to start the photo animation
     window.addEventListener("DOMContentLoaded", function () {
-      // Add a class to the body to trigger CSS animations on the figures
+      // Set the current year in the footer
+      document.getElementById("year").textContent = new Date().getFullYear();
+
+      // Trigger the initial photo animation via CSS
       document.body.classList.add("photos-animate");
-      // Wichtig: wir entfernen die Klasse NICHT mehr, damit die Fotos sichtbar bleiben
+
+      // JavaScript-powered "Shuffle photos" button
+      const shuffleButton = document.querySelector(".shuffle-button");
+      const grid = document.querySelector(".gallery .grid");
+
+      if (shuffleButton && grid) {
+        shuffleButton.addEventListener("click", function () {
+          const figures = Array.from(grid.querySelectorAll("figure"));
+          // simple random shuffle
+          figures.sort(() => Math.random() - 0.5);
+          figures.forEach((fig) => grid.appendChild(fig));
+        });
+      }
     });
   </script>
 </body>
