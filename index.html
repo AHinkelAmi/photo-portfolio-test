@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Alexandra Hinkel – Photography</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Alexandra Hinkel – Photography</h1>
+    <p>Simple one-page site to practise HTML & CSS and show some of my past photo shoots.</p>
+  </header>
+
+  <main>
+    <section class="about">
+      <h2>About</h2>
+      <p>
+        I enjoy capturing people, light and atmosphere in a natural way. 
+        This page is a small practice project to consolidate my HTML/CSS learning.
+      </p>
+    </section>
+
+    <section class="gallery">
+      <h2>Photo Gallery</h2>
+      <div class="grid">
+        <figure>
+          <img src="PHOTO_URL_1" alt="Photo 1 description" />
+          <figcaption>Short caption for photo 1</figcaption>
+        </figure>
+        <figure>
+          <img src="PHOTO_URL_2" alt="Photo 2 description" />
+          <figcaption>Short caption for photo 2</figcaption>
+        </figure>
+        <figure>
+          <img src="PHOTO_URL_3" alt="Photo 3 description" />
+          <figcaption>Short caption for photo 3</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="contact">
+      <h2>Contact</h2>
+      <p>
+        You can reach me via email: 
+        <a href="mailto:YOUR_EMAIL@example.com">YOUR_EMAIL@example.com</a>
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <p>© <span id="year"></span> Alexandra Hinkel</p>
+  </footer>
+
+  <script>
+    // small bit of JS just to set the year
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
