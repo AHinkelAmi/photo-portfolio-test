@@ -52,6 +52,11 @@ figure {
   border-radius: 6px;
   padding: 0.5rem;
   box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  /* Wichtig für die Animation: */
+  transform-origin: center center;
+  transform: translateY(20px) scale(0.98);
+  opacity: 0;
+  transition: transform 0.8s ease, opacity 0.8s ease;
 }
 
 figure img {
@@ -80,4 +85,43 @@ footer {
   padding: 1rem;
   font-size: 0.8rem;
   color: #777;
+}
+
+/* --- Animations-Teil --- */
+
+/* Wenn JS die Klasse "photos-animate" auf <body> setzt,
+   werden die Figuren "reinschweben" und leicht drehen. */
+
+body.photos-animate .gallery .grid figure {
+  opacity: 1;
+  transform: translateY(0) scale(1) rotate(0deg);
+}
+
+/* Kleine Unterschiede pro Bild, damit es lebendiger wirkt */
+body.photos-animate .gallery .grid figure:nth-child(1) {
+  animation: photo-pop 0.8s ease-out forwards;
+}
+
+body.photos-animate .gallery .grid figure:nth-child(2) {
+  animation: photo-pop 0.8s ease-out 0.1s forwards;
+}
+
+body.photos-animate .gallery .grid figure:nth-child(3) {
+  animation: photo-pop 0.8s ease-out 0.2s forwards;
+}
+
+/* Keyframes für eine leichte Drehung und Bewegung */
+@keyframes photo-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95) rotate(-5deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-5px) scale(1.02) rotate(3deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
 }
