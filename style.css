@@ -8,7 +8,7 @@ body {
 }
 
 header {
-  background: #222;
+  background: linear-gradient(135deg, #5fa9ff, #9cd6ff); /* light sky blue */
   color: #fff;
   padding: 2rem 1rem;
   text-align: center;
@@ -40,6 +40,24 @@ h2 {
   margin-top: 0;
 }
 
+/* Shuffle button under the gallery heading */
+.shuffle-button {
+  display: inline-block;
+  margin: 0 0 1rem 0;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  background: #5fa9ff;
+  color: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+
+.shuffle-button:hover {
+  opacity: 0.9;
+}
+
 .gallery .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -52,7 +70,6 @@ figure {
   border-radius: 6px;
   padding: 0.5rem;
   box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-  /* Wichtig für die Animation: */
   transform-origin: center center;
   transform: translateY(20px) scale(0.98);
   opacity: 0;
@@ -87,17 +104,13 @@ footer {
   color: #777;
 }
 
-/* --- Animations-Teil --- */
-
-/* Wenn JS die Klasse "photos-animate" auf <body> setzt,
-   werden die Figuren "reinschweben" und leicht drehen. */
+/* --- Animation on load --- */
 
 body.photos-animate .gallery .grid figure {
   opacity: 1;
   transform: translateY(0) scale(1) rotate(0deg);
 }
 
-/* Kleine Unterschiede pro Bild, damit es lebendiger wirkt */
 body.photos-animate .gallery .grid figure:nth-child(1) {
   animation: photo-pop 0.8s ease-out forwards;
 }
@@ -110,7 +123,19 @@ body.photos-animate .gallery .grid figure:nth-child(3) {
   animation: photo-pop 0.8s ease-out 0.2s forwards;
 }
 
-/* Keyframes für eine leichte Drehung und Bewegung */
+body.photos-animate .gallery .grid figure:nth-child(4) {
+  animation: photo-pop 0.8s ease-out 0.3s forwards;
+}
+
+body.photos-animate .gallery .grid figure:nth-child(5) {
+  animation: photo-pop 0.8s ease-out 0.4s forwards;
+}
+
+body.photos-animate .gallery .grid figure:nth-child(6) {
+  animation: photo-pop 0.8s ease-out 0.5s forwards;
+}
+
+/* Keyframes for the small pop/rotation effect */
 @keyframes photo-pop {
   0% {
     opacity: 0;
