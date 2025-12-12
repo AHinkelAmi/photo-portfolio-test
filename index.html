@@ -8,7 +8,7 @@
 <body>
   <header>
     <h1>Alexandra Hinkel – Photography</h1>
-    <p>Simple one-page site to practise HTML & CSS and show some of my past photo shoots.</p>
+    <p>Simple one-page site to practise HTML, CSS & JavaScript and show some of my past photo shoots.</p>
   </header>
 
   <main>
@@ -16,7 +16,7 @@
       <h2>About</h2>
       <p>
         I enjoy capturing people, light and atmosphere in a natural way. 
-        This page is a small practice project to consolidate my HTML/CSS learning.
+        This page is a small practice project to consolidate my HTML/CSS/JS learning.
       </p>
     </section>
 
@@ -52,8 +52,19 @@
   </footer>
 
   <script>
-    // small bit of JS just to set the year
+    // Set the current year in the footer
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Simple JS animation: when the page loads, add a class to start the photo animation
+    window.addEventListener("DOMContentLoaded", function () {
+      // Add a class to the body to trigger CSS animations on the figures
+      document.body.classList.add("photos-animate");
+
+      // Optional: after 2 seconds remove the class so the animation only runs once
+      setTimeout(function () {
+        document.body.classList.remove("photos-animate");
+      }, 2000);
+    });
   </script>
 </body>
 </html>
