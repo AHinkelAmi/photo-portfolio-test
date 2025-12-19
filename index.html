@@ -4,28 +4,31 @@
   <meta charset="UTF-8" />
   <title>Alexandra Hinkel – Photography</title>
   <link rel="stylesheet" href="style.css" />
+
   <style>
-    /* Neue schmale Top-Leiste für Weather-Button + Turtle-GIF */
-    .api-top-bar {
+    /* Leiste mit Shuffle-Button, Weather-Button und Turtle-GIF */
+    .gallery-header {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      margin: 20px 0 40px 0;
-      padding: 15px 0;
-      border-bottom: 1px solid #eee;
-      flex-wrap: wrap;
-      gap: 20px;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .left-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
     .weather-button {
       background: #3498db;
       color: white;
       border: none;
-      padding: 8px 16px;
-      font-size: 14px;
-      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 12px;
+      border-radius: 4px;
       cursor: pointer;
-      margin-left: 15px;
       transition: background 0.3s;
     }
 
@@ -34,31 +37,21 @@
     }
 
     .weather-info {
-      font-size: 14px;
+      font-size: 13px;
       color: #555;
-      margin-left: 15px;
     }
 
     .turtle-gif {
-      max-width: 140px;
+      max-width: 120px;
       height: auto;
       border-radius: 10px;
       box-shadow: 0 3px 8px rgba(0,0,0,0.1);
     }
 
     @media (max-width: 768px) {
-      .api-top-bar {
-        justify-content: center;
+      .gallery-header {
         flex-direction: column;
-        text-align: center;
-      }
-      .weather-button, .weather-info {
-        margin-left: 0;
-        margin-top: 10px;
-      }
-      .turtle-gif {
-        max-width: 180px;
-        margin-top: 15px;
+        align-items: flex-start;
       }
     }
   </style>
@@ -68,16 +61,6 @@
     <h1>Alexandra Hinkel – Photography</h1>
     <p>Simple one-page site to practise HTML, CSS & JavaScript and show some of my past photo shoots.</p>
   </header>
-
-  <!-- API-Leiste: Weather-Button + Info links, Turtle-GIF rechts -->
-  <div class="api-top-bar">
-    <div class="weather-info">
-      Santorini today: <span id="temp">Loading...</span> | <span id="condition">Loading...</span>
-      <button class="weather-button" onclick="loadSantoriniWeather()">Update</button>
-    </div>
-
-    <img id="turtle-gif" class="turtle-gif" src="" alt="Random turtle GIF" />
-  </div>
 
   <main>
     <section class="about">
@@ -90,7 +73,23 @@
 
     <section class="gallery">
       <h2>Photo Gallery</h2>
-      <button class="shuffle-button" type="button">Shuffle photos</button>
+
+      <!-- NEU: Shuffle + Weather + Turtle-GIF in einer Zeile -->
+      <div class="gallery-header">
+        <div class="left-controls">
+          <button class="shuffle-button" type="button">Shuffle photos</button>
+
+          <div class="weather-info">
+            Santorini today:
+            <span id="temp">Loading...</span> |
+            <span id="condition">Loading...</span>
+            <button class="weather-button" type="button" onclick="loadSantoriniWeather()">Update</button>
+          </div>
+        </div>
+
+        <img id="turtle-gif" class="turtle-gif" src="" alt="Random turtle GIF" />
+      </div>
+
       <div class="grid">
         <figure>
           <img src="IMG_32342.jpg" alt="Photo 1 Santorini" />
@@ -117,11 +116,11 @@
           <figcaption>Oia - Santorini</figcaption>
         </figure>
         <figure>
-          <img src="IMG_3825.jpg" alt="Photo 1 Santorini" />
+          <img src="IMG_3825.jpg" alt="Photo 7 Santorini" />
           <figcaption>Oia - Santorini</figcaption>
         </figure>
         <figure>
-          <img src="IMG_2954.jpg" alt="Photo 1 Santorini" />
+          <img src="IMG_2954.jpg" alt="Photo 8 Santorini" />
           <figcaption>Oia - Santorini</figcaption>
         </figure>
       </div>
@@ -141,6 +140,42 @@
   </footer>
 
   <script>
+    // Außderhalb des DOMContentLoaded definieren, damit der Button im HTML darauf zugreifen kann
+    function loadSantoriniWeather() {
+      const lat = 36.3932;
+      const lon = 25.4615;
+
+      fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code`)
+        .then(response => {
+          if (!response.ok) throw new Error('Network error');
+          return response.json();
+        })
+        .then(data => {
+          const temp = Math.round(data.current.temperature_2m);
+          const code = data.current.weather_code;
+
+          const weatherMap = {
+            0: 'Clear sky ☀️',
+            1: 'Mainly clear 🌤️',
+            2: 'Partly cloudy ⛅',
+            3: 'Overcast ☁️',
+            45: 'Fog 🌫️',
+            51: 'Light drizzle 🌦️',
+            61: 'Rain 🌧️',
+            80: 'Heavy rain 🌧️',
+          };
+
+          const weatherText = weatherMap[code] || 'Unknown 🌍';
+          document.getElementById('temp').textContent = `${temp} °C`;
+          document.getElementById('condition').textContent = weatherText;
+        })
+        .catch(err => {
+          document.getElementById('temp').textContent = 'Error';
+          document.getElementById('condition').textContent = 'Could not load';
+          console.error(err);
+        });
+    }
+
     window.addEventListener("DOMContentLoaded", function () {
       // Set the current year
       document.getElementById("year").textContent = new Date().getFullYear();
@@ -148,7 +183,7 @@
       // Photo animation
       document.body.classList.add("photos-animate");
 
-      // Shuffle button (bleibt exakt wie vorher)
+      // Shuffle button
       const shuffleButton = document.querySelector(".shuffle-button");
       const grid = document.querySelector(".gallery .grid");
       if (shuffleButton && grid) {
@@ -171,44 +206,7 @@
           console.error(err);
         });
 
-      // Santorini Weather
-      function loadSantoriniWeather() {
-        const lat = 36.3932;
-        const lon = 25.4615;
-
-        fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code`)
-          .then(response => {
-            if (!response.ok) throw new Error('Network error');
-            return response.json();
-          })
-          .then(data => {
-            const temp = Math.round(data.current.temperature_2m);
-            const code = data.current.weather_code;
-
-            const weatherMap = {
-              0: 'Clear sky ☀️',
-              1: 'Mainly clear 🌤️',
-              2: 'Partly cloudy ⛅',
-              3: 'Overcast ☁️',
-              45: 'Fog 🌫️',
-              51: 'Light drizzle 🌦️',
-              61: 'Rain 🌧️',
-              80: 'Heavy rain 🌧️',
-            };
-
-            const weatherText = weatherMap[code] || 'Unknown 🌍';
-
-            document.getElementById('temp').textContent = `${temp} °C`;
-            document.getElementById('condition').textContent = weatherText;
-          })
-          .catch(err => {
-            document.getElementById('temp').textContent = 'Error';
-            document.getElementById('condition').textContent = 'Could not load';
-            console.error(err);
-          });
-      }
-
-      // Automatisches Laden beim Start
+      // Automatisch Wetter beim Laden holen
       loadSantoriniWeather();
     });
   </script>
