@@ -195,10 +195,10 @@
         .then(response => response.json())
         .then(data => {
           const gifUrl = data.data.images.original.url;
-          document.getElementById('water+turtle-gif').src = gifUrl;
+          document.getElementById('turtle-gif').src = gifUrl;
         })
         .catch(err => {
-          document.getElementById('water+turtle-gif').alt = "Turtle GIF could not be loaded 🐢";
+          document.getElementById('turtle-gif').alt = "Turtle GIF could not be loaded 🐢";
           console.error(err);
         });
 
