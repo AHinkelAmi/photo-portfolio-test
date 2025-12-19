@@ -59,7 +59,7 @@
 <body>
   <header>
     <h1>Alexandra Hinkel – Photography</h1>
-    <p>Simple one-page site to practise HTML, CSS & JavaScript and show some of my past photo shoots.</p>
+    <p>Simple one-page site to practise HTML, CSS, API & JavaScript and show some of my past photo shoots.</p>
   </header>
 
   <main>
@@ -67,7 +67,7 @@
       <h2>About</h2>
       <p>
         I enjoy capturing people, light and atmosphere in a natural way.
-        This page is a small practice project to consolidate my HTML/CSS/JS learning.
+        This page is a small practice project to consolidate my HTML/CSS/JS/API learning.
       </p>
     </section>
 
@@ -191,14 +191,14 @@
         });
       }
 
-      fetch('https://api.giphy.com/v1/gifs/random?api_key=XoSknwO4mlHbQuwX0Y0ACJo60nwWa2l4&tag=turtles&rating=g')
+      fetch('https://api.giphy.com/v1/gifs/random?api_key=XoSknwO4mlHbQuwX0Y0ACJo60nwWa2l4&tag=water+turtles&rating=g')
         .then(response => response.json())
         .then(data => {
           const gifUrl = data.data.images.original.url;
-          document.getElementById('turtle-gif').src = gifUrl;
+          document.getElementById('water+turtle-gif').src = gifUrl;
         })
         .catch(err => {
-          document.getElementById('turtle-gif').alt = "Turtle GIF could not be loaded 🐢";
+          document.getElementById('water+turtle-gif').alt = "Turtle GIF could not be loaded 🐢";
           console.error(err);
         });
 
