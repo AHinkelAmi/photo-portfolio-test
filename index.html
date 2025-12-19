@@ -191,7 +191,7 @@
         });
       }
 
-      fetch('https://api.giphy.com/v1/gifs/random?api_key=XoSknwO4mlHbQuwX0Y0ACJo60nwWa2l4&tag=water+turtles&rating=g')
+      fetch('https://api.giphy.com/v1/gifs/random?api_key=XoSknwO4mlHbQuwX0Y0ACJo60nwWa2l4&tag=turtles&rating=g')
         .then(response => response.json())
         .then(data => {
           const gifUrl = data.data.images.original.url;
