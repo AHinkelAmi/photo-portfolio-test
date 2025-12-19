@@ -5,40 +5,27 @@
   <title>Alexandra Hinkel – Photography</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    /* Zusätzliches CSS für die neuen Features */
-    .api-section {
+    /* Neue schmale Top-Leiste für Weather-Button + Turtle-GIF */
+    .api-top-bar {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      margin: 40px 0;
+      align-items: center;
+      margin: 20px 0 40px 0;
+      padding: 15px 0;
+      border-bottom: 1px solid #eee;
       flex-wrap: wrap;
-      gap: 30px;
-    }
-
-    .turtle-gif {
-      max-width: 300px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    }
-
-    .weather-box {
-      background: rgba(255, 255, 255, 0.9);
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      text-align: center;
-      min-width: 250px;
+      gap: 20px;
     }
 
     .weather-button {
       background: #3498db;
       color: white;
       border: none;
-      padding: 12px 24px;
-      font-size: 16px;
-      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 14px;
+      border-radius: 6px;
       cursor: pointer;
-      margin-bottom: 15px;
+      margin-left: 15px;
       transition: background 0.3s;
     }
 
@@ -47,22 +34,31 @@
     }
 
     .weather-info {
-      font-size: 18px;
-      margin: 10px 0;
+      font-size: 14px;
+      color: #555;
+      margin-left: 15px;
     }
 
-    .weather-icon {
-      font-size: 40px;
-      margin: 10px 0;
+    .turtle-gif {
+      max-width: 140px;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
     }
 
     @media (max-width: 768px) {
-      .api-section {
+      .api-top-bar {
+        justify-content: center;
         flex-direction: column;
-        align-items: center;
+        text-align: center;
+      }
+      .weather-button, .weather-info {
+        margin-left: 0;
+        margin-top: 10px;
       }
       .turtle-gif {
-        max-width: 100%;
+        max-width: 180px;
+        margin-top: 15px;
       }
     }
   </style>
@@ -73,23 +69,15 @@
     <p>Simple one-page site to practise HTML, CSS & JavaScript and show some of my past photo shoots.</p>
   </header>
 
-  <!-- Neue API-Section: Turtle GIF links + Weather rechts -->
-  <section class="api-section">
-    <!-- Random Turtle GIF -->
-    <div>
-      <img id="turtle-gif" class="turtle-gif" src="" alt="Random turtle GIF" />
-      <p style="text-align:center; font-style:italic; margin-top:8px;">Random turtle friend 🐢</p>
+  <!-- API-Leiste: Weather-Button + Info links, Turtle-GIF rechts -->
+  <div class="api-top-bar">
+    <div class="weather-info">
+      Santorini today: <span id="temp">Loading...</span> | <span id="condition">Loading...</span>
+      <button class="weather-button" onclick="loadSantoriniWeather()">Update</button>
     </div>
 
-    <!-- Weather for Santorini -->
-    <div class="weather-box">
-      <h3>Weather Today in Santorini</h3>
-      <button class="weather-button" onclick="loadSantoriniWeather()">Update Weather</button>
-      <div class="weather-icon" id="weather-icon">☀️</div>
-      <div class="weather-info" id="temp">Click to load</div>
-      <div class="weather-info" id="condition"></div>
-    </div>
-  </section>
+    <img id="turtle-gif" class="turtle-gif" src="" alt="Random turtle GIF" />
+  </div>
 
   <main>
     <section class="about">
@@ -160,7 +148,7 @@
       // Photo animation
       document.body.classList.add("photos-animate");
 
-      // Shuffle button
+      // Shuffle button (bleibt exakt wie vorher)
       const shuffleButton = document.querySelector(".shuffle-button");
       const grid = document.querySelector(".gallery .grid");
       if (shuffleButton && grid) {
@@ -171,7 +159,7 @@
         });
       }
 
-      // 1. Load random turtle GIF
+      // Random turtle GIF
       fetch('https://api.giphy.com/v1/gifs/random?api_key=XoSknwO4mlHbQuwX0Y0ACJo60nwWa2l4&tag=turtles&rating=g')
         .then(response => response.json())
         .then(data => {
@@ -179,11 +167,11 @@
           document.getElementById('turtle-gif').src = gifUrl;
         })
         .catch(err => {
-          document.getElementById('turtle-gif').alt = "Turtle GIF could not be loaded";
+          document.getElementById('turtle-gif').alt = "Turtle GIF could not be loaded 🐢";
           console.error(err);
         });
 
-      // 2. Santorini Weather (Open-Meteo – no key needed)
+      // Santorini Weather
       function loadSantoriniWeather() {
         const lat = 36.3932;
         const lon = 25.4615;
@@ -197,31 +185,30 @@
             const temp = Math.round(data.current.temperature_2m);
             const code = data.current.weather_code;
 
-            // Simple weather descriptions + icons
             const weatherMap = {
-              0: { text: 'Clear sky', icon: '☀️' },
-              1: { text: 'Mainly clear', icon: '🌤️' },
-              2: { text: 'Partly cloudy', icon: '⛅' },
-              3: { text: 'Overcast', icon: '☁️' },
-              45: { text: 'Fog', icon: '🌫️' },
-              51: { text: 'Light drizzle', icon: '🌦️' },
-              61: { text: 'Rain', icon: '🌧️' },
-              80: { text: 'Heavy rain', icon: '🌧️' },
+              0: 'Clear sky ☀️',
+              1: 'Mainly clear 🌤️',
+              2: 'Partly cloudy ⛅',
+              3: 'Overcast ☁️',
+              45: 'Fog 🌫️',
+              51: 'Light drizzle 🌦️',
+              61: 'Rain 🌧️',
+              80: 'Heavy rain 🌧️',
             };
 
-            const weather = weatherMap[code] || { text: 'Unknown', icon: '🌍' };
+            const weatherText = weatherMap[code] || 'Unknown 🌍';
 
-            document.getElementById('weather-icon').textContent = weather.icon;
             document.getElementById('temp').textContent = `${temp} °C`;
-            document.getElementById('condition').textContent = weather.text;
+            document.getElementById('condition').textContent = weatherText;
           })
           .catch(err => {
-            document.getElementById('temp').textContent = 'Error loading weather';
+            document.getElementById('temp').textContent = 'Error';
+            document.getElementById('condition').textContent = 'Could not load';
             console.error(err);
           });
       }
 
-      // Load weather automatically on page load
+      // Automatisches Laden beim Start
       loadSantoriniWeather();
     });
   </script>
