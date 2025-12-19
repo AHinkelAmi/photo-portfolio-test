@@ -6,13 +6,13 @@
   <link rel="stylesheet" href="style.css" />
 
   <style>
-    /* Leiste mit Shuffle-Button, Weather-Button und Turtle-GIF */
+    /* Leiste in der Photo Gallery: Shuffle + Weather + Turtle-GIF */
     .gallery-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 16px;
-      margin-bottom: 20px;
+      margin: 10px 0 20px 0;
     }
 
     .left-controls {
@@ -25,7 +25,7 @@
       background: #3498db;
       color: white;
       border: none;
-      padding: 6px 10px;
+      padding: 4px 8px;
       font-size: 12px;
       border-radius: 4px;
       cursor: pointer;
@@ -37,12 +37,12 @@
     }
 
     .weather-info {
-      font-size: 13px;
+      font-size: 12px;
       color: #555;
     }
 
     .turtle-gif {
-      max-width: 120px;
+      max-width: 100px;
       height: auto;
       border-radius: 10px;
       box-shadow: 0 3px 8px rgba(0,0,0,0.1);
@@ -74,7 +74,7 @@
     <section class="gallery">
       <h2>Photo Gallery</h2>
 
-      <!-- NEU: Shuffle + Weather + Turtle-GIF in einer Zeile -->
+      <!-- Jetzt direkt in der Photo Gallery: Shuffle + Weather + GIF -->
       <div class="gallery-header">
         <div class="left-controls">
           <button class="shuffle-button" type="button">Shuffle photos</button>
@@ -91,6 +91,7 @@
       </div>
 
       <div class="grid">
+        <!-- deine Bilder bleiben wie gehabt -->
         <figure>
           <img src="IMG_32342.jpg" alt="Photo 1 Santorini" />
           <figcaption>Oia - Santorini</figcaption>
@@ -140,7 +141,6 @@
   </footer>
 
   <script>
-    // Außderhalb des DOMContentLoaded definieren, damit der Button im HTML darauf zugreifen kann
     function loadSantoriniWeather() {
       const lat = 36.3932;
       const lon = 25.4615;
@@ -177,13 +177,10 @@
     }
 
     window.addEventListener("DOMContentLoaded", function () {
-      // Set the current year
       document.getElementById("year").textContent = new Date().getFullYear();
 
-      // Photo animation
       document.body.classList.add("photos-animate");
 
-      // Shuffle button
       const shuffleButton = document.querySelector(".shuffle-button");
       const grid = document.querySelector(".gallery .grid");
       if (shuffleButton && grid) {
@@ -194,7 +191,6 @@
         });
       }
 
-      // Random turtle GIF
       fetch('https://api.giphy.com/v1/gifs/random?api_key=XoSknwO4mlHbQuwX0Y0ACJo60nwWa2l4&tag=turtles&rating=g')
         .then(response => response.json())
         .then(data => {
@@ -206,7 +202,6 @@
           console.error(err);
         });
 
-      // Automatisch Wetter beim Laden holen
       loadSantoriniWeather();
     });
   </script>
