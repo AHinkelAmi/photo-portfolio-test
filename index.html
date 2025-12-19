@@ -5,40 +5,38 @@
   <title>Alexandra Hinkel – Photography</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    /* Zusätzliches CSS für die neuen Features */
-    .api-section {
+    /* Neue obere Leiste für API-Features */
+    .top-bar {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      margin: 40px 0;
+      align-items: center;
+      margin: 30px 0;
       flex-wrap: wrap;
-      gap: 30px;
+      gap: 20px;
+      padding: 15px 0;
+      border-bottom: 1px solid #eee;
     }
 
-    .turtle-gif {
-      max-width: 300px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    }
-
-    .weather-box {
-      background: rgba(255, 255, 255, 0.9);
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      text-align: center;
-      min-width: 250px;
+    .shuffle-button {
+      /* Dein bestehender Style bleibt, falls in style.css definiert */
+      background: #f39c12;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
     }
 
     .weather-button {
       background: #3498db;
       color: white;
       border: none;
-      padding: 12px 24px;
+      padding: 10px 20px;
       font-size: 16px;
       border-radius: 8px;
       cursor: pointer;
-      margin-bottom: 15px;
+      margin-left: 15px;
       transition: background 0.3s;
     }
 
@@ -46,23 +44,32 @@
       background: #2980b9;
     }
 
-    .weather-info {
-      font-size: 18px;
-      margin: 10px 0;
+    .turtle-gif {
+      max-width: 150px;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
 
-    .weather-icon {
-      font-size: 40px;
-      margin: 10px 0;
+    .weather-info {
+      font-size: 14px;
+      margin-top: 8px;
+      color: #555;
     }
 
     @media (max-width: 768px) {
-      .api-section {
+      .top-bar {
+        justify-content: center;
         flex-direction: column;
-        align-items: center;
+        text-align: center;
+      }
+      .weather-button {
+        margin-left: 0;
+        margin-top: 10px;
       }
       .turtle-gif {
-        max-width: 100%;
+        max-width: 200px;
+        margin-top: 15px;
       }
     }
   </style>
@@ -73,23 +80,18 @@
     <p>Simple one-page site to practise HTML, CSS & JavaScript and show some of my past photo shoots.</p>
   </header>
 
-  <!-- Neue API-Section: Turtle GIF links + Weather rechts -->
-  <section class="api-section">
-    <!-- Random Turtle GIF -->
+  <!-- Neue obere Leiste: Shuffle + Weather Button links/mittig, Turtle GIF rechts -->
+  <div class="top-bar">
     <div>
-      <img id="turtle-gif" class="turtle-gif" src="" alt="Random turtle GIF" />
-      <p style="text-align:center; font-style:italic; margin-top:8px;">Random turtle friend 🐢</p>
+      <button class="shuffle-button" type="button">Shuffle photos</button>
+      <button class="weather-button" onclick="loadSantoriniWeather()">Weather Today</button>
+      <div class="weather-info">
+        <span id="temp">Loading...</span> | <span id="condition">Loading...</span>
+      </div>
     </div>
 
-    <!-- Weather for Santorini -->
-    <div class="weather-box">
-      <h3>Weather Today in Santorini</h3>
-      <button class="weather-button" onclick="loadSantoriniWeather()">Update Weather</button>
-      <div class="weather-icon" id="weather-icon">☀️</div>
-      <div class="weather-info" id="temp">Click to load</div>
-      <div class="weather-info" id="condition"></div>
-    </div>
-  </section>
+    <img id="turtle-gif" class="turtle-gif" src="" alt="Random turtle GIF" />
+  </div>
 
   <main>
     <section class="about">
@@ -102,7 +104,6 @@
 
     <section class="gallery">
       <h2>Photo Gallery</h2>
-      <button class="shuffle-button" type="button">Shuffle photos</button>
       <div class="grid">
         <figure>
           <img src="IMG_32342.jpg" alt="Photo 1 Santorini" />
@@ -171,7 +172,7 @@
         });
       }
 
-      // 1. Load random turtle GIF
+      // 1. Load random turtle GIF (automatically on load)
       fetch('https://api.giphy.com/v1/gifs/random?api_key=XoSknwO4mlHbQuwX0Y0ACJo60nwWa2l4&tag=turtles&rating=g')
         .then(response => response.json())
         .then(data => {
@@ -179,7 +180,7 @@
           document.getElementById('turtle-gif').src = gifUrl;
         })
         .catch(err => {
-          document.getElementById('turtle-gif').alt = "Turtle GIF could not be loaded";
+          document.getElementById('turtle-gif').alt = "Turtle GIF could not be loaded 🐢";
           console.error(err);
         });
 
@@ -197,33 +198,11 @@
             const temp = Math.round(data.current.temperature_2m);
             const code = data.current.weather_code;
 
-            // Simple weather descriptions + icons
             const weatherMap = {
-              0: { text: 'Clear sky', icon: '☀️' },
-              1: { text: 'Mainly clear', icon: '🌤️' },
-              2: { text: 'Partly cloudy', icon: '⛅' },
-              3: { text: 'Overcast', icon: '☁️' },
-              45: { text: 'Fog', icon: '🌫️' },
-              51: { text: 'Light drizzle', icon: '🌦️' },
-              61: { text: 'Rain', icon: '🌧️' },
-              80: { text: 'Heavy rain', icon: '🌧️' },
-            };
-
-            const weather = weatherMap[code] || { text: 'Unknown', icon: '🌍' };
-
-            document.getElementById('weather-icon').textContent = weather.icon;
-            document.getElementById('temp').textContent = `${temp} °C`;
-            document.getElementById('condition').textContent = weather.text;
-          })
-          .catch(err => {
-            document.getElementById('temp').textContent = 'Error loading weather';
-            console.error(err);
-          });
-      }
-
-      // Load weather automatically on page load
-      loadSantoriniWeather();
-    });
-  </script>
-</body>
-</html>
+              0: 'Clear sky ☀️',
+              1: 'Mainly clear 🌤️',
+              2: 'Partly cloudy ⛅',
+              3: 'Overcast ☁️',
+              45: 'Fog 🌫️',
+              51: 'Light drizzle 🌦️',
+              61: 'Rain 🌧️
